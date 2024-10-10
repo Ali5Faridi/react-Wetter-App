@@ -15,8 +15,8 @@ const WeatherApp = () => {
     try {
       // Fetch geolocation for the city
       const geoResponse = await fetch(
-        // `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=5&appid=921e1dd6b430659e204ccb6dd0e64323`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
+        // `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=5&appid=921e1dd6b430659e204ccb6dd0e64323`
       );
       const geoData = await geoResponse.json();
       if (geoData.length === 0) {
@@ -64,17 +64,20 @@ const WeatherApp = () => {
         {error && <p>{error}</p>}
 
         {weatherData && (
-          <div className="weather-info">
-            <h3>{weatherData.name}</h3>
-            <p>{weatherData.weather[0].description}</p>
-            <h1>
-              {weatherData.main.temp} <sup>°C</sup>
-            </h1>
-            <div className="details">
-              <p>Humidity: {weatherData.main.humidity}%</p>
-              <p>Wind Speed: {weatherData.wind.speed} km/h</p>
-            </div>
-          </div>
+        <div className="weather-info">
+    <h3>{weatherData.name}</h3>
+    <p>{weatherData.weather[0].description}</p>
+    
+    <h1>
+      {weatherData.main.temp} <sup>°C</sup> / 
+      {((weatherData.main.temp * 9) / 5 + 32).toFixed(1)} <sup>°F</sup>
+    </h1>
+    
+    <div className="details">
+      <p>Humidity: {weatherData.main.humidity}%</p>
+      <p>Wind Speed: {weatherData.wind.speed} km/h</p>
+    </div>
+  </div>
         )}
       </div>
 
