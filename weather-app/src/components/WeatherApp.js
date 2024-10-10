@@ -6,39 +6,41 @@ const WeatherApp = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [forecastData, setForecastData] = useState([]);
 
-  // Fetch weather data
-  const fetchWeatherData = async () => {
+
+const fetchWeatherData = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
       // Fetch geolocation for the city
       const geoResponse = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
-        // `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=5&appid=921e1dd6b430659e204ccb6dd0e64323`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
       );
       const geoData = await geoResponse.json();
-      if (geoData.length === 0) {
-        setError("City not found");
-        setLoading(false);
-        return;
-      }
-
       const { lat, lon } = geoData[0];
-
-      // Fetch weather data using latitude and longitude
+  
+      // Fetch current weather data
       const weatherResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=921e1dd6b430659e204ccb6dd0e64323`
       );
       const weather = await weatherResponse.json();
       setWeatherData(weather);
+  
+      // Fetch 10-day forecast data
+      const forecastResponse = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=921e1dd6b430659e204ccb6dd0e64323`
+      );
+      const forecast = await forecastResponse.json();
+      setForecastData(forecast.daily);
     } catch (error) {
       setError("Failed to fetch data");
     } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchWeatherData();
@@ -81,6 +83,8 @@ const WeatherApp = () => {
         )}
       </div>
 
+      
+
       <footer>
         <p>© 2024 Weather UB. All rights reserved.</p>
       </footer>
@@ -90,3 +94,4 @@ const WeatherApp = () => {
 
 
 export default WeatherApp;
+
