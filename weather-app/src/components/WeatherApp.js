@@ -16,11 +16,12 @@ const fetchWeatherData = async () => {
     try {
       // Fetch geolocation for the city
       const geoResponse = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
       );
       const geoData = await geoResponse.json();
       const { lat, lon } = geoData[0];
   
+      
       // Fetch current weather data
       const weatherResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=921e1dd6b430659e204ccb6dd0e64323`
