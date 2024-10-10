@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./../styles/style.css"; // CSS import
 
 const WeatherApp = () => {
-  const [city, setCity] = useState("Tehran");
+  const [city, setCity] = useState("Leipzig");
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,7 +15,8 @@ const WeatherApp = () => {
     try {
       // Fetch geolocation for the city
       const geoResponse = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
+        // `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=921e1dd6b430659e204ccb6dd0e64323`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${city},DE&limit=5&appid=921e1dd6b430659e204ccb6dd0e64323`
       );
       const geoData = await geoResponse.json();
       if (geoData.length === 0) {
